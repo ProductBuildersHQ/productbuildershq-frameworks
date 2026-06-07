@@ -1,0 +1,449 @@
+{
+  "$schema": "../../schema/framework.schema.json",
+  "framework": "AI_SPACE",
+  "name": "AI-Modified SPACE",
+  "description": "AI-Modified developer productivity framework for measuring effectiveness in AI-assisted environments",
+  "version": "1.1.0",
+  "basedOn": {
+    "framework": "SPACE",
+    "name": "SPACE Developer Productivity Framework",
+    "source": "https://queue.acm.org/detail.cfm?id=3454124",
+    "authors": ["Nicole Forsgren", "Margaret-Anne Storey", "Chandra Maddila", "Thomas Zimmermann", "Brian Houck", "Jenna Butler"],
+    "year": 2021
+  },
+  "category": "developer-productivity",
+  "dimensions": [
+    {
+      "id": "S",
+      "name": "Satisfaction and Well-being",
+      "description": "Developer satisfaction with AI-assisted work environment",
+      "standardDescription": "How fulfilled developers feel with their work",
+      "aiModification": "Focuses on human-AI collaboration satisfaction, toil reduction, and AI learning curve",
+      "metrics": [
+        {
+          "id": "ai-satisfaction",
+          "name": "AI Tool Satisfaction",
+          "description": "Developer satisfaction with AI coding assistants (Copilot, Claude, etc.)",
+          "unit": "1-5",
+          "direction": "higher_is_better",
+          "source": "GitHub Well-Architected (Copilot Satisfaction)",
+          "levels": {
+            "elite": {"threshold": 4.5, "label": "Highly satisfied"},
+            "high": {"threshold": 4.0, "label": "Satisfied"},
+            "medium": {"threshold": 3.0, "label": "Neutral"},
+            "low": {"threshold": 0, "label": "Dissatisfied"}
+          }
+        },
+        {
+          "id": "tooling-satisfaction",
+          "name": "Engineering Tooling Satisfaction",
+          "description": "Developer satisfaction with overall engineering tool ecosystem",
+          "unit": "1-5",
+          "direction": "higher_is_better",
+          "source": "GitHub Well-Architected",
+          "levels": {
+            "elite": {"threshold": 4.5, "label": "Highly satisfied"},
+            "high": {"threshold": 4.0, "label": "Satisfied"},
+            "medium": {"threshold": 3.0, "label": "Neutral"},
+            "low": {"threshold": 0, "label": "Dissatisfied"}
+          }
+        },
+        {
+          "id": "toil-reduction",
+          "name": "Toil Reduction",
+          "description": "Percentage reduction in repetitive, automatable work due to AI",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 70, "label": ">70% toil reduced"},
+            "high": {"threshold": 50, "label": ">50% toil reduced"},
+            "medium": {"threshold": 30, "label": ">30% toil reduced"},
+            "low": {"threshold": 0, "label": "Minimal reduction"}
+          }
+        },
+        {
+          "id": "creative-ratio",
+          "name": "Creative Work Ratio",
+          "description": "Percentage of time on creative vs routine tasks",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 80, "label": ">80% creative work"},
+            "high": {"threshold": 60, "label": ">60% creative work"},
+            "medium": {"threshold": 40, "label": ">40% creative work"},
+            "low": {"threshold": 0, "label": "Mostly routine"}
+          }
+        },
+        {
+          "id": "work-life-balance",
+          "name": "AI Work-Life Balance Impact",
+          "description": "Whether AI tools improve or degrade work-life balance",
+          "unit": "1-5",
+          "direction": "higher_is_better",
+          "source": "LinearB SPACE",
+          "note": "5 = significantly improved, 3 = neutral, 1 = significantly degraded",
+          "levels": {
+            "elite": {"threshold": 4.5, "label": "Significantly improved"},
+            "high": {"threshold": 4.0, "label": "Somewhat improved"},
+            "medium": {"threshold": 3.0, "label": "Neutral"},
+            "low": {"threshold": 0, "label": "Degraded"}
+          }
+        }
+      ]
+    },
+    {
+      "id": "P",
+      "name": "Performance",
+      "description": "Quality of AI-assisted outputs and human oversight",
+      "standardDescription": "Quality of work outputs",
+      "aiModification": "Includes AI code quality, human review effectiveness, and security/maintainability",
+      "metrics": [
+        {
+          "id": "ai-acceptance",
+          "name": "AI Code Acceptance Rate",
+          "description": "Percentage of AI suggestions accepted after review",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 80, "label": ">80% accepted"},
+            "high": {"threshold": 60, "label": ">60% accepted"},
+            "medium": {"threshold": 40, "label": ">40% accepted"},
+            "low": {"threshold": 0, "label": "Low acceptance"}
+          }
+        },
+        {
+          "id": "ai-quality",
+          "name": "AI Code Quality Score",
+          "description": "Quality rating of AI-generated code (readability, correctness, maintainability)",
+          "unit": "1-5",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 4.5, "label": "Production-ready"},
+            "high": {"threshold": 4.0, "label": "Minor edits needed"},
+            "medium": {"threshold": 3.0, "label": "Significant edits"},
+            "low": {"threshold": 0, "label": "Major rework"}
+          }
+        },
+        {
+          "id": "human-catch-rate",
+          "name": "Human Review Catch Rate",
+          "description": "Issues caught by human review of AI code",
+          "unit": "%",
+          "direction": "optimum",
+          "note": "Too low suggests rubber-stamping; too high suggests poor AI quality",
+          "levels": {
+            "elite": {"min": 5, "max": 15, "label": "5-15% catch rate"},
+            "high": {"min": 15, "max": 25, "label": "15-25% catch rate"},
+            "medium": {"min": 25, "max": 40, "label": "25-40% catch rate"},
+            "low": {"min": 40, "max": 100, "label": ">40% catch rate"}
+          }
+        },
+        {
+          "id": "ai-defect-density",
+          "name": "AI Code Defect Density",
+          "description": "Defects per KLOC in AI-generated code vs baseline",
+          "unit": "defects/KLOC",
+          "direction": "lower_is_better",
+          "source": "LinearB SPACE",
+          "levels": {
+            "elite": {"threshold": 1, "label": "<1 defect/KLOC"},
+            "high": {"threshold": 3, "label": "<3 defects/KLOC"},
+            "medium": {"threshold": 5, "label": "<5 defects/KLOC"},
+            "low": {"threshold": 100, "label": ">5 defects/KLOC"}
+          }
+        },
+        {
+          "id": "code-security",
+          "name": "Code Security and Maintainability",
+          "description": "Security vulnerabilities and maintainability score in AI-generated code",
+          "unit": "1-5",
+          "direction": "higher_is_better",
+          "source": "GitHub Well-Architected",
+          "levels": {
+            "elite": {"threshold": 4.5, "label": "Highly secure/maintainable"},
+            "high": {"threshold": 4.0, "label": "Good security/maintainability"},
+            "medium": {"threshold": 3.0, "label": "Acceptable"},
+            "low": {"threshold": 0, "label": "Security/maintainability issues"}
+          }
+        }
+      ]
+    },
+    {
+      "id": "A",
+      "name": "Activity",
+      "description": "Orchestration quality, AI leverage, and workflow effectiveness",
+      "standardDescription": "Count of actions or outputs",
+      "aiModification": "Shifts from counting outputs to measuring AI leverage and orchestration quality",
+      "warning": "Traditional activity metrics (LOC, commits) are meaningless with AI",
+      "metrics": [
+        {
+          "id": "ai-leverage",
+          "name": "AI Leverage",
+          "description": "Percentage of development work performed with AI assistance",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "source": "GitHub Well-Architected",
+          "note": "Key metric for measuring AI adoption and utilization",
+          "levels": {
+            "elite": {"threshold": 80, "label": ">80% AI-assisted"},
+            "high": {"threshold": 60, "label": ">60% AI-assisted"},
+            "medium": {"threshold": 40, "label": ">40% AI-assisted"},
+            "low": {"threshold": 0, "label": "Minimal AI usage"}
+          }
+        },
+        {
+          "id": "prompt-reuse",
+          "name": "Prompt Reuse Rate",
+          "description": "Percentage of prompts templated for reuse",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 60, "label": ">60% reusable"},
+            "high": {"threshold": 40, "label": ">40% reusable"},
+            "medium": {"threshold": 20, "label": ">20% reusable"},
+            "low": {"threshold": 0, "label": "Ad-hoc prompts"}
+          }
+        },
+        {
+          "id": "session-efficiency",
+          "name": "AI Session Efficiency",
+          "description": "Meaningful outcomes per AI session hour",
+          "unit": "outcomes/hr",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 5, "label": ">5 outcomes/hr"},
+            "high": {"threshold": 3, "label": ">3 outcomes/hr"},
+            "medium": {"threshold": 1, "label": ">1 outcome/hr"},
+            "low": {"threshold": 0, "label": "<1 outcome/hr"}
+          }
+        },
+        {
+          "id": "orchestration-complexity",
+          "name": "Orchestration Complexity",
+          "description": "Multi-step AI workflows created",
+          "unit": "avg steps",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 10, "label": "10+ step workflows"},
+            "high": {"threshold": 5, "label": "5-10 step workflows"},
+            "medium": {"threshold": 3, "label": "3-5 step workflows"},
+            "low": {"threshold": 0, "label": "Single prompts"}
+          }
+        },
+        {
+          "id": "feature-delivery",
+          "name": "AI-Assisted Feature Delivery Rate",
+          "description": "Features delivered per sprint with AI assistance",
+          "unit": "features/sprint",
+          "direction": "higher_is_better",
+          "source": "LinearB SPACE",
+          "levels": {
+            "elite": {"threshold": 10, "label": ">10 features/sprint"},
+            "high": {"threshold": 7, "label": ">7 features/sprint"},
+            "medium": {"threshold": 4, "label": ">4 features/sprint"},
+            "low": {"threshold": 0, "label": "<4 features/sprint"}
+          }
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Communication and Collaboration",
+      "description": "Human-AI-Human collaboration, knowledge sharing, and feedback loops",
+      "standardDescription": "How people collaborate and communicate",
+      "aiModification": "Includes AI workflow sharing, prompt library collaboration, and AI-assisted feedback",
+      "metrics": [
+        {
+          "id": "workflow-sharing",
+          "name": "AI Workflow Sharing Rate",
+          "description": "Percentage of AI workflows shared with team",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 70, "label": ">70% shared"},
+            "high": {"threshold": 50, "label": ">50% shared"},
+            "medium": {"threshold": 30, "label": ">30% shared"},
+            "low": {"threshold": 0, "label": "Individual use"}
+          }
+        },
+        {
+          "id": "prompt-contributions",
+          "name": "Prompt Library Contributions",
+          "description": "Contributions to shared prompt libraries",
+          "unit": "count/month",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 10, "label": "10+ contributions/mo"},
+            "high": {"threshold": 5, "label": "5-10 contributions/mo"},
+            "medium": {"threshold": 2, "label": "2-5 contributions/mo"},
+            "low": {"threshold": 0, "label": "Consumer only"}
+          }
+        },
+        {
+          "id": "pattern-adoption",
+          "name": "Cross-team Pattern Adoption",
+          "description": "AI patterns adopted from other teams",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 50, "label": ">50% cross-team"},
+            "high": {"threshold": 30, "label": ">30% cross-team"},
+            "medium": {"threshold": 15, "label": ">15% cross-team"},
+            "low": {"threshold": 0, "label": "Siloed"}
+          }
+        },
+        {
+          "id": "feedback-loop-speed",
+          "name": "AI-Enabled Feedback Loop Speed",
+          "description": "Time from code change to actionable feedback (reviews, tests, CI)",
+          "unit": "minutes",
+          "direction": "lower_is_better",
+          "source": "LinearB SPACE",
+          "levels": {
+            "elite": {"threshold": 10, "label": "<10 min feedback"},
+            "high": {"threshold": 30, "label": "<30 min feedback"},
+            "medium": {"threshold": 60, "label": "<1 hour feedback"},
+            "low": {"threshold": 1440, "label": ">1 hour feedback"}
+          }
+        },
+        {
+          "id": "ai-documentation",
+          "name": "AI-Assisted Documentation Quality",
+          "description": "Completeness and currency of AI-generated or AI-maintained documentation",
+          "unit": "%",
+          "direction": "higher_is_better",
+          "source": "LinearB SPACE",
+          "levels": {
+            "elite": {"threshold": 90, "label": ">90% coverage and current"},
+            "high": {"threshold": 75, "label": ">75% coverage"},
+            "medium": {"threshold": 50, "label": ">50% coverage"},
+            "low": {"threshold": 0, "label": "Sparse/outdated"}
+          }
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "name": "Efficiency and Flow",
+      "description": "AI-augmented flow state, acceleration, and cycle time reduction",
+      "standardDescription": "Ability to complete work with minimal interruptions",
+      "aiModification": "Measures AI acceleration factor, augmented flow state, and cycle time improvements",
+      "metrics": [
+        {
+          "id": "acceleration-factor",
+          "name": "AI Acceleration Factor",
+          "description": "Task completion speed with AI vs without",
+          "unit": "x",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 5, "label": ">5x faster"},
+            "high": {"threshold": 3, "label": ">3x faster"},
+            "medium": {"threshold": 2, "label": ">2x faster"},
+            "low": {"threshold": 1, "label": "No acceleration"}
+          }
+        },
+        {
+          "id": "context-switches",
+          "name": "Context Switch Frequency",
+          "description": "Disruptive switches between human and AI work",
+          "unit": "/day",
+          "direction": "lower_is_better",
+          "levels": {
+            "elite": {"threshold": 3, "label": "<3 switches/day"},
+            "high": {"threshold": 5, "label": "<5 switches/day"},
+            "medium": {"threshold": 10, "label": "<10 switches/day"},
+            "low": {"threshold": 100, "label": "Constant switching"}
+          }
+        },
+        {
+          "id": "augmented-flow",
+          "name": "AI-Augmented Flow Hours",
+          "description": "Hours per day in AI-augmented flow state",
+          "unit": "hours/day",
+          "direction": "higher_is_better",
+          "source": "GitHub Well-Architected (Flow State Experience)",
+          "levels": {
+            "elite": {"threshold": 6, "label": ">6 hours/day"},
+            "high": {"threshold": 4, "label": ">4 hours/day"},
+            "medium": {"threshold": 2, "label": ">2 hours/day"},
+            "low": {"threshold": 0, "label": "Fragmented"}
+          }
+        },
+        {
+          "id": "cycle-time",
+          "name": "AI-Assisted Cycle Time",
+          "description": "Time from work start to production deployment with AI assistance",
+          "unit": "hours",
+          "direction": "lower_is_better",
+          "source": "LinearB SPACE",
+          "levels": {
+            "elite": {"threshold": 4, "label": "<4 hours"},
+            "high": {"threshold": 24, "label": "<1 day"},
+            "medium": {"threshold": 72, "label": "<3 days"},
+            "low": {"threshold": 168, "label": ">3 days"}
+          }
+        },
+        {
+          "id": "time-savings",
+          "name": "Weekly AI Time Savings",
+          "description": "Hours saved per week due to AI assistance",
+          "unit": "hours/week",
+          "direction": "higher_is_better",
+          "levels": {
+            "elite": {"threshold": 15, "label": ">15 hours saved"},
+            "high": {"threshold": 10, "label": ">10 hours saved"},
+            "medium": {"threshold": 5, "label": ">5 hours saved"},
+            "low": {"threshold": 0, "label": "Minimal savings"}
+          }
+        }
+      ]
+    }
+  ],
+  "antiPatterns": [
+    {
+      "metric": "Lines of code",
+      "reason": "AI can generate infinite LOC; meaningless metric"
+    },
+    {
+      "metric": "Number of prompts",
+      "reason": "Easily gamed; more prompts ≠ better outcomes"
+    },
+    {
+      "metric": "AI tool usage time",
+      "reason": "More time ≠ better; efficiency matters"
+    },
+    {
+      "metric": "Raw commit frequency",
+      "reason": "AI can generate infinite commits; focus on meaningful outcomes instead"
+    },
+    {
+      "metric": "Code churn",
+      "reason": "AI refactoring inflates churn without value correlation"
+    }
+  ],
+  "references": [
+    {
+      "title": "The SPACE of Developer Productivity",
+      "url": "https://queue.acm.org/detail.cfm?id=3454124",
+      "year": 2021,
+      "note": "Original SPACE framework paper"
+    },
+    {
+      "title": "GitHub Well-Architected: Engineering System Metrics",
+      "url": "https://wellarchitected.github.com/library/productivity/recommendations/engineering-system-metrics/",
+      "year": 2025,
+      "note": "GitHub's 4-zone, 12-metric framework including AI Leverage and Copilot Satisfaction"
+    },
+    {
+      "title": "LinearB SPACE Framework Guide",
+      "url": "https://linearb.io/blog/space-framework",
+      "year": 2025,
+      "note": "Comprehensive 20-metric SPACE implementation guide"
+    },
+    {
+      "title": "GitHub Octoverse Developer Productivity",
+      "url": "https://github.blog/2021-05-25-octoverse-spotlight-an-analysis-of-developer-productivity-rest-and-collaboration-in-2020/",
+      "year": 2021
+    }
+  ]
+}
