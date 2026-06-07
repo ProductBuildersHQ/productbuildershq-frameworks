@@ -1,0 +1,146 @@
+{
+  "$schema": "../../schema/framework.schema.json",
+  "framework": "PBMM",
+  "name": "Product Builder Maturity Model",
+  "description": "A maturity model for measuring progress from traditional roles to AI-enabled product builders, with dual PM and Engineer paths converging at higher levels",
+  "version": "1.0.0",
+  "category": "maturity-model",
+  "type": "original",
+  "documentation": {
+    "article": "https://productbuildershq.com/frameworks/product-builder-maturity-model",
+    "pdf": "https://productbuildershq.com/papers/product-builder-maturity-model.pdf"
+  },
+  "paths": {
+    "pm": {
+      "name": "PM Path",
+      "description": "Product managers gaining technical fluency"
+    },
+    "engineer": {
+      "name": "Engineer Path",
+      "description": "Engineers gaining product judgment"
+    }
+  },
+  "convergence": {
+    "level": 5,
+    "description": "Both paths converge at L5-L6 as full Product Builders"
+  },
+  "levels": [
+    {
+      "level": 0,
+      "name": "Observer",
+      "pmPath": "Uses AI for docs/brainstorming",
+      "engineerPath": "Uses AI for docs/brainstorming",
+      "characteristics": [
+        "Passive AI consumption",
+        "Basic prompt usage",
+        "No workflow integration"
+      ]
+    },
+    {
+      "level": 1,
+      "name": "Operator",
+      "pmPath": "Structured AI workflows",
+      "engineerPath": "Structured AI workflows",
+      "characteristics": [
+        "Repeatable AI patterns",
+        "Prompt libraries",
+        "Task-specific workflows"
+      ]
+    },
+    {
+      "level": 2,
+      "name": "Prototype Builder",
+      "pmPath": "Ships prototypes before engineering",
+      "engineerPath": "Ships prototypes before PM",
+      "characteristics": [
+        "Rapid prototyping capability",
+        "Cross-functional proactivity",
+        "Reduced handoff dependencies"
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Technical Builder",
+      "pmPath": "AI Developer (writes code)",
+      "engineerPath": "Product-Aware Engineer",
+      "characteristics": [
+        "Path-specific specialization",
+        "PM: Production code capability",
+        "Engineer: Customer empathy and product thinking"
+      ]
+    },
+    {
+      "level": 4,
+      "name": "Production Engineer",
+      "pmPath": "AI Product Engineer",
+      "engineerPath": "Full-Stack Product Engineer",
+      "characteristics": [
+        "Production-quality output",
+        "System-level thinking",
+        "Ownership mentality"
+      ]
+    },
+    {
+      "level": 5,
+      "name": "Product Builder",
+      "pmPath": "End-to-end ownership",
+      "engineerPath": "End-to-end ownership",
+      "converged": true,
+      "characteristics": [
+        "Idea to production autonomy",
+        "Full-stack capability",
+        "Business and technical fluency"
+      ]
+    },
+    {
+      "level": 6,
+      "name": "Platform Leader",
+      "pmPath": "Enables other builders",
+      "engineerPath": "Enables other builders",
+      "converged": true,
+      "characteristics": [
+        "Multiplier effect",
+        "Platform thinking",
+        "Organizational transformation"
+      ]
+    }
+  ],
+  "frameworkMappings": [
+    {
+      "metric": "Features shipped without handoff",
+      "aiDora": "Deployment Frequency",
+      "aiSpace": "Activity"
+    },
+    {
+      "metric": "Time to prototype",
+      "aiDora": "Lead Time",
+      "aiSpace": "Efficiency"
+    },
+    {
+      "metric": "Production incidents on owned systems",
+      "aiDora": "Change Failure Rate",
+      "aiSpace": "Performance"
+    },
+    {
+      "metric": "Mean time to resolution",
+      "aiDora": "MTTR",
+      "aiSpace": "Efficiency"
+    },
+    {
+      "metric": "Prompt reuse rate",
+      "aiDora": null,
+      "aiSpace": "Activity"
+    },
+    {
+      "metric": "Stakeholder satisfaction",
+      "aiDora": null,
+      "aiSpace": "Satisfaction"
+    }
+  ],
+  "references": [
+    {
+      "title": "Product Builder Maturity Model Article",
+      "url": "https://productbuildershq.com/frameworks/product-builder-maturity-model"
+    }
+  ]
+}
