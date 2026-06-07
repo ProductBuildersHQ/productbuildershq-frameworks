@@ -1,0 +1,159 @@
+{
+  "$schema": "../../schema/framework.schema.json",
+  "framework": "ASDM",
+  "name": "Autonomous Software Delivery Model",
+  "description": "A seven-level progression from traditional Agile teams to autonomous software delivery and operations",
+  "version": "1.0.0",
+  "category": "maturity-model",
+  "type": "original",
+  "documentation": {
+    "article": "https://productbuildershq.com/frameworks/software-delivery-autonomy",
+    "pdf": "https://productbuildershq.com/papers/software-delivery-autonomy.pdf"
+  },
+  "levels": [
+    {
+      "level": 1,
+      "name": "Agile/Scrum",
+      "humanRole": "Execute work",
+      "definingCharacteristic": "Team coordination optimization",
+      "humanLoopPosition": "Human-in-the-loop",
+      "humanLoopDescription": "Interactive, every step",
+      "practices": [],
+      "artifacts": ["User stories", "Sprint backlogs", "Retrospective notes"],
+      "rituals": ["Sprint planning", "Daily standup", "Sprint review", "Retrospective"]
+    },
+    {
+      "level": 2,
+      "name": "DevOps",
+      "humanRole": "Build + operate",
+      "definingCharacteristic": "Pipeline automation (CI/CD)",
+      "humanLoopPosition": "Human-in-the-loop",
+      "humanLoopDescription": "Interactive, every step",
+      "practices": ["CI/CD pipelines", "Infrastructure as Code", "Monitoring"],
+      "artifacts": ["Pipeline configurations", "Runbooks", "SLO definitions"],
+      "rituals": ["Deployment reviews", "Incident reviews", "Capacity planning"]
+    },
+    {
+      "level": 3,
+      "name": "AI-Assisted",
+      "humanRole": "Primary implementer",
+      "definingCharacteristic": "AI augments existing process",
+      "humanLoopPosition": "Human-in-the-loop",
+      "humanLoopDescription": "Interactive, every step",
+      "practices": ["AI code completion", "AI-assisted testing", "AI documentation"],
+      "artifacts": ["Prompt templates", "AI tool configurations"],
+      "rituals": ["AI tool training", "Prompt sharing sessions"]
+    },
+    {
+      "level": 4,
+      "name": "AI-Native Workflows",
+      "humanRole": "Orchestrator",
+      "definingCharacteristic": "Process redesigned around AI",
+      "humanLoopPosition": "Human-in-the-loop",
+      "humanLoopDescription": "But process is AI-native",
+      "practices": [
+        {"name": "Steering files (AGENTS.md)", "maturity": "introduce"},
+        {"name": "Governance-by-policy", "maturity": "introduce"}
+      ],
+      "artifacts": ["Steering files", "Prompt libraries", "Context specs"],
+      "rituals": ["Mob Elaboration", "Mob Construction", "Prompt reviews"],
+      "examples": ["AWS AI-Driven Development Lifecycle (AI-DLC)"]
+    },
+    {
+      "level": 5,
+      "name": "Agentic Engineering",
+      "humanRole": "Batch reviewer",
+      "definingCharacteristic": "Extended autonomous sessions",
+      "humanLoopPosition": "Human-on-the-loop",
+      "humanLoopDescription": "Batch review after autonomous sessions",
+      "practices": [
+        {"name": "Steering files (AGENTS.md)", "maturity": "mature"},
+        {"name": "Extended autonomous sessions", "maturity": "core"},
+        {"name": "Scenario-based validation", "maturity": "partial"},
+        {"name": "Digital Twin infrastructure", "maturity": "experiment"},
+        {"name": "Governance-by-policy", "maturity": "develop"}
+      ],
+      "artifacts": ["Execution logs", "Batch review queues", "Agent traces"],
+      "rituals": ["Queue-before-sleep", "Morning review", "High-bandwidth standups"],
+      "examples": ["AWS Project Mantle", "Spotify Honk"]
+    },
+    {
+      "level": 6,
+      "name": "Autonomous Coding & Review",
+      "humanRole": "Specification owner",
+      "definingCharacteristic": "No human coding or code review",
+      "humanLoopPosition": "Human-over-the-code-loop",
+      "humanLoopDescription": "Humans define intent and scenarios, not code",
+      "practices": [
+        {"name": "Steering files (AGENTS.md)", "maturity": "required"},
+        {"name": "Extended autonomous sessions", "maturity": "core"},
+        {"name": "Scenario-based validation", "maturity": "required"},
+        {"name": "Digital Twin infrastructure", "maturity": "required"},
+        {"name": "Zero human code review", "maturity": "required"},
+        {"name": "Governance-by-policy", "maturity": "required"},
+        {"name": "Autonomous operations", "maturity": "experiment"}
+      ],
+      "artifacts": ["Scenario libraries", "Digital Twins", "Satisfaction dashboards"],
+      "rituals": ["Scenario authoring", "DTU maintenance", "Policy governance"],
+      "examples": ["StrongDM Software Factory"]
+    },
+    {
+      "level": 7,
+      "name": "Autonomous Operations",
+      "humanRole": "Governor",
+      "definingCharacteristic": "Autonomous production operations",
+      "humanLoopPosition": "Human-over-the-operations-loop",
+      "humanLoopDescription": "Governance, incidents, and exceptions only",
+      "practices": [
+        {"name": "Steering files (AGENTS.md)", "maturity": "required"},
+        {"name": "Extended autonomous sessions", "maturity": "core"},
+        {"name": "Scenario-based validation", "maturity": "required"},
+        {"name": "Digital Twin infrastructure", "maturity": "required"},
+        {"name": "Zero human code review", "maturity": "required"},
+        {"name": "Governance-by-policy", "maturity": "required"},
+        {"name": "Autonomous operations", "maturity": "required"}
+      ],
+      "artifacts": ["Operational policy engines", "Production guardrails", "Remediation playbooks"],
+      "rituals": ["SLO governance", "Incident simulation", "Exception review"],
+      "examples": ["Emerging frontier (no public examples yet)"]
+    }
+  ],
+  "caseStudies": [
+    {
+      "name": "AWS Project Mantle",
+      "level": 5,
+      "date": "2026-01",
+      "documentation": {
+        "article": "https://productbuildershq.com/case-studies/aws-project-mantle",
+        "pdf": "https://productbuildershq.com/papers/aws-project-mantle.pdf"
+      }
+    },
+    {
+      "name": "StrongDM Software Factory",
+      "level": 6,
+      "date": "2026-02",
+      "documentation": {
+        "article": "https://productbuildershq.com/case-studies/strongdm-software-factory",
+        "pdf": "https://productbuildershq.com/papers/strongdm-software-factory.pdf"
+      }
+    }
+  ],
+  "references": [
+    {
+      "title": "AWS AI-Driven Development Lifecycle (AI-DLC)",
+      "date": "2026-01"
+    },
+    {
+      "title": "AWS Project Mantle",
+      "date": "2026-01"
+    },
+    {
+      "title": "Spotify Honk",
+      "date": "2026-02"
+    },
+    {
+      "title": "StrongDM Software Factory",
+      "date": "2026-02"
+    }
+  ]
+}
