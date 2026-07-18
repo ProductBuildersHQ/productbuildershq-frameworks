@@ -11,6 +11,12 @@ Machine-readable specifications for maturity models and capability frameworks. T
 | Product Builder Maturity Model | [`frameworks/product-builder-maturity/`](frameworks/product-builder-maturity/) | [Article](https://productbuildershq.com/frameworks/product-builder-maturity-model) \| [PDF](https://productbuildershq.com/papers/product-builder-maturity-model.pdf) |
 | ASDM (Autonomous Software Delivery) | [`frameworks/asdm/`](frameworks/asdm/) | [Article](https://productbuildershq.com/frameworks/software-delivery-autonomy) \| [PDF](https://productbuildershq.com/papers/software-delivery-autonomy.pdf) |
 
+### Development Lifecycle Frameworks
+
+| Framework | Spec | Based On | Documentation |
+|-----------|------|----------|---------------|
+| AIDLC (AI-Driven Development Lifecycle) | [`frameworks/aidlc/`](frameworks/aidlc/) | [AWS AI DLC](https://docs.aws.amazon.com/prescriptive-guidance/latest/ai-driven-software-development/) | [Article](https://productbuildershq.com/frameworks/aws-aidlc) |
+
 ### AI-Adapted Industry Frameworks
 
 | Framework | Spec | Based On | Documentation |
@@ -70,6 +76,11 @@ func main() {
     fmt.Printf("PBMM: %d levels, converges at L%d\n",
         len(pbmm.Levels), pbmm.Convergence.Level)
 
+    // Get AIDLC (3-phase development lifecycle)
+    aidlc := frameworks.MustAIDLC()
+    fmt.Printf("AIDLC: %d phases, %d total deliverables\n",
+        len(aidlc.Phases), countDeliverables(aidlc))
+
     // Access raw JSON if needed
     jsonBytes := frameworks.AIDoraJSON()
     fmt.Printf("Raw AI-DORA JSON: %d bytes\n", len(jsonBytes))
@@ -93,10 +104,13 @@ func main() {
 | `MustASDM()` | Returns `*ASDMFramework` (panics on error) |
 | `PBMM()` | Returns `*PBMMFramework, error` |
 | `MustPBMM()` | Returns `*PBMMFramework` (panics on error) |
+| `AIDLC()` | Returns `*AIDLCFramework, error` |
+| `MustAIDLC()` | Returns `*AIDLCFramework` (panics on error) |
 | `AIDoraJSON()` | Returns raw JSON `[]byte` |
 | `AISpaceJSON()` | Returns raw JSON `[]byte` |
 | `ASDMJSON()` | Returns raw JSON `[]byte` |
 | `PBMMJSON()` | Returns raw JSON `[]byte` |
+| `AIDLCJSON()` | Returns raw JSON `[]byte` |
 | `FS()` | Returns `embed.FS` with all JSON files |
 
 ## Usage with PRISM

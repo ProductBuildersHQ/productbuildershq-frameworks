@@ -19,24 +19,30 @@ var asdmJSON []byte
 //go:embed frameworks/product-builder-maturity/product-builder-maturity.json
 var pbmmJSON []byte
 
+//go:embed frameworks/aidlc/aidlc-framework.json
+var aidlcJSON []byte
+
 //go:embed frameworks
 var frameworksFS embed.FS
 
 var (
-	aiDoraOnce   sync.Once
-	aiSpaceOnce  sync.Once
-	asdmOnce     sync.Once
-	pbmmOnce     sync.Once
+	aiDoraOnce  sync.Once
+	aiSpaceOnce sync.Once
+	asdmOnce    sync.Once
+	pbmmOnce    sync.Once
+	aidlcOnce   sync.Once
 
-	aiDoraCached   *AIDoraFramework
-	aiSpaceCached  *AISpaceFramework
-	asdmCached     *ASDMFramework
-	pbmmCached     *PBMMFramework
+	aiDoraCached  *AIDoraFramework
+	aiSpaceCached *AISpaceFramework
+	asdmCached    *ASDMFramework
+	pbmmCached    *PBMMFramework
+	aidlcCached   *AIDLCFramework
 
 	aiDoraErr  error
 	aiSpaceErr error
 	asdmErr    error
 	pbmmErr    error
+	aidlcErr   error
 )
 
 // AIDora returns the AI-DORA framework.
@@ -145,6 +151,33 @@ func ASDMJSON() []byte {
 // PBMMJSON returns the raw JSON bytes for PBMM.
 func PBMMJSON() []byte {
 	return pbmmJSON
+}
+
+// AIDLC returns the AWS AI-Driven Development Lifecycle framework.
+// The result is cached after the first call.
+func AIDLC() (*AIDLCFramework, error) {
+	aidlcOnce.Do(func() {
+		aidlcCached = &AIDLCFramework{}
+		aidlcErr = json.Unmarshal(aidlcJSON, aidlcCached)
+		if aidlcErr != nil {
+			aidlcErr = fmt.Errorf("failed to parse AIDLC: %w", aidlcErr)
+		}
+	})
+	return aidlcCached, aidlcErr
+}
+
+// MustAIDLC returns the AIDLC framework or panics on error.
+func MustAIDLC() *AIDLCFramework {
+	f, err := AIDLC()
+	if err != nil {
+		panic(err)
+	}
+	return f
+}
+
+// AIDLCJSON returns the raw JSON bytes for AIDLC.
+func AIDLCJSON() []byte {
+	return aidlcJSON
 }
 
 // FS returns the embedded filesystem containing all framework JSON files.

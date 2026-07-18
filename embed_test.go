@@ -122,12 +122,50 @@ func TestPBMM(t *testing.T) {
 	}
 }
 
+func TestAIDLC(t *testing.T) {
+	f, err := AIDLC()
+	if err != nil {
+		t.Fatalf("AIDLC() error: %v", err)
+	}
+	if f.Framework != "AIDLC" {
+		t.Errorf("Framework = %q, want %q", f.Framework, "AIDLC")
+	}
+	if f.Type != "adapted" {
+		t.Errorf("Type = %q, want %q", f.Type, "adapted")
+	}
+	if len(f.Phases) != 3 {
+		t.Errorf("len(Phases) = %d, want 3", len(f.Phases))
+	}
+	// Verify phase IDs
+	expectedPhases := []string{"inception", "construction", "operations"}
+	for i, p := range f.Phases {
+		if p.ID != expectedPhases[i] {
+			t.Errorf("Phases[%d].ID = %q, want %q", i, p.ID, expectedPhases[i])
+		}
+	}
+	// Count total deliverables (should be 12)
+	totalDeliverables := 0
+	for _, p := range f.Phases {
+		totalDeliverables += len(p.Deliverables)
+	}
+	if totalDeliverables != 12 {
+		t.Errorf("total deliverables = %d, want 12", totalDeliverables)
+	}
+	// Verify cost estimates
+	if f.CostEstimates == nil {
+		t.Error("CostEstimates is nil")
+	} else if f.CostEstimates.Totals.InputTokens != 127000 {
+		t.Errorf("CostEstimates.Totals.InputTokens = %d, want 127000", f.CostEstimates.Totals.InputTokens)
+	}
+}
+
 func TestMustFunctions(t *testing.T) {
 	// These should not panic since the JSON is valid
 	_ = MustAIDora()
 	_ = MustAISpace()
 	_ = MustASDM()
 	_ = MustPBMM()
+	_ = MustAIDLC()
 }
 
 func TestRawJSON(t *testing.T) {
@@ -142,6 +180,9 @@ func TestRawJSON(t *testing.T) {
 	}
 	if len(PBMMJSON()) == 0 {
 		t.Error("PBMMJSON() is empty")
+	}
+	if len(AIDLCJSON()) == 0 {
+		t.Error("AIDLCJSON() is empty")
 	}
 }
 

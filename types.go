@@ -55,15 +55,15 @@ type MetricLevels struct {
 
 // AIDoraFramework represents the AI-modified DORA metrics framework.
 type AIDoraFramework struct {
-	Schema      string        `json:"$schema,omitempty"`
-	Framework   string        `json:"framework,omitempty"`
-	Name        string        `json:"name,omitempty"`
-	Description string        `json:"description,omitempty"`
-	Version     string        `json:"version,omitempty"`
-	BasedOn     *BasedOn      `json:"basedOn,omitempty"`
-	Category    string        `json:"category,omitempty"`
-	Metrics     []DoraMetric  `json:"metrics,omitempty"`
-	References  []Reference   `json:"references,omitempty"`
+	Schema      string       `json:"$schema,omitempty"`
+	Framework   string       `json:"framework,omitempty"`
+	Name        string       `json:"name,omitempty"`
+	Description string       `json:"description,omitempty"`
+	Version     string       `json:"version,omitempty"`
+	BasedOn     *BasedOn     `json:"basedOn,omitempty"`
+	Category    string       `json:"category,omitempty"`
+	Metrics     []DoraMetric `json:"metrics,omitempty"`
+	References  []Reference  `json:"references,omitempty"`
 }
 
 // DoraMetric represents a single DORA metric with AI modifications.
@@ -130,31 +130,31 @@ type AntiPattern struct {
 
 // ASDMFramework represents the Autonomous Software Delivery Model.
 type ASDMFramework struct {
-	Schema        string       `json:"$schema,omitempty"`
-	Framework     string       `json:"framework,omitempty"`
-	Name          string       `json:"name,omitempty"`
-	Description   string       `json:"description,omitempty"`
-	Version       string       `json:"version,omitempty"`
-	Category      string       `json:"category,omitempty"`
-	Type          string       `json:"type,omitempty"`
+	Schema        string        `json:"$schema,omitempty"`
+	Framework     string        `json:"framework,omitempty"`
+	Name          string        `json:"name,omitempty"`
+	Description   string        `json:"description,omitempty"`
+	Version       string        `json:"version,omitempty"`
+	Category      string        `json:"category,omitempty"`
+	Type          string        `json:"type,omitempty"`
 	Documentation Documentation `json:"documentation,omitempty"`
-	Levels        []ASDMLevel  `json:"levels,omitempty"`
-	CaseStudies   []CaseStudy  `json:"caseStudies,omitempty"`
-	References    []Reference  `json:"references,omitempty"`
+	Levels        []ASDMLevel   `json:"levels,omitempty"`
+	CaseStudies   []CaseStudy   `json:"caseStudies,omitempty"`
+	References    []Reference   `json:"references,omitempty"`
 }
 
 // ASDMLevel represents a level in the ASDM progression.
 type ASDMLevel struct {
-	Level                   int            `json:"level,omitempty"`
-	Name                    string         `json:"name,omitempty"`
-	HumanRole               string         `json:"humanRole,omitempty"`
-	DefiningCharacteristic  string         `json:"definingCharacteristic,omitempty"`
-	HumanLoopPosition       string         `json:"humanLoopPosition,omitempty"`
-	HumanLoopDescription    string         `json:"humanLoopDescription,omitempty"`
-	Practices               []ASDMPractice `json:"practices,omitempty"`
-	Artifacts               []string       `json:"artifacts,omitempty"`
-	Rituals                 []string       `json:"rituals,omitempty"`
-	Examples                []string       `json:"examples,omitempty"`
+	Level                  int            `json:"level,omitempty"`
+	Name                   string         `json:"name,omitempty"`
+	HumanRole              string         `json:"humanRole,omitempty"`
+	DefiningCharacteristic string         `json:"definingCharacteristic,omitempty"`
+	HumanLoopPosition      string         `json:"humanLoopPosition,omitempty"`
+	HumanLoopDescription   string         `json:"humanLoopDescription,omitempty"`
+	Practices              []ASDMPractice `json:"practices,omitempty"`
+	Artifacts              []string       `json:"artifacts,omitempty"`
+	Rituals                []string       `json:"rituals,omitempty"`
+	Examples               []string       `json:"examples,omitempty"`
 }
 
 // ASDMPractice represents a practice with maturity level.
@@ -239,4 +239,139 @@ type FrameworkMapping struct {
 	Metric  string  `json:"metric,omitempty"`
 	AIDora  *string `json:"aiDora,omitempty"`
 	AISpace *string `json:"aiSpace,omitempty"`
+}
+
+// =============================================================================
+// AIDLC Types
+// =============================================================================
+
+// AIDLCFramework represents the AWS AI-Driven Development Lifecycle.
+type AIDLCFramework struct {
+	Schema        string              `json:"$schema,omitempty"`
+	Framework     string              `json:"framework,omitempty"`
+	Name          string              `json:"name,omitempty"`
+	Description   string              `json:"description,omitempty"`
+	Version       string              `json:"version,omitempty"`
+	Category      string              `json:"category,omitempty"`
+	Type          string              `json:"type,omitempty"`
+	BasedOn       *AIDLCBasedOn       `json:"basedOn,omitempty"`
+	Documentation AIDLCDocumentation  `json:"documentation,omitempty"`
+	Phases        []AIDLCPhase        `json:"phases,omitempty"`
+	Dependencies  *AIDLCDependencies  `json:"dependencies,omitempty"`
+	Evaluation    *AIDLCEvaluation    `json:"evaluation,omitempty"`
+	CostEstimates *AIDLCCostEstimates `json:"costEstimates,omitempty"`
+	Tooling       *AIDLCTooling       `json:"tooling,omitempty"`
+	References    []Reference         `json:"references,omitempty"`
+}
+
+// AIDLCBasedOn indicates the source framework for AIDLC.
+type AIDLCBasedOn struct {
+	Name          string `json:"name,omitempty"`
+	Organization  string `json:"organization,omitempty"`
+	Documentation string `json:"documentation,omitempty"`
+}
+
+// AIDLCDocumentation contains AIDLC-specific documentation links.
+type AIDLCDocumentation struct {
+	Article       string `json:"article,omitempty"`
+	Specification string `json:"specification,omitempty"`
+}
+
+// AIDLCPhase represents a phase in the AIDLC workflow.
+type AIDLCPhase struct {
+	ID           string             `json:"id,omitempty"`
+	Name         string             `json:"name,omitempty"`
+	Order        int                `json:"order,omitempty"`
+	Description  string             `json:"description,omitempty"`
+	HumanRole    string             `json:"humanRole,omitempty"`
+	AIRole       string             `json:"aiRole,omitempty"`
+	Deliverables []AIDLCDeliverable `json:"deliverables,omitempty"`
+	Gates        []AIDLCGate        `json:"gates,omitempty"`
+}
+
+// AIDLCDeliverable represents a document deliverable in a phase.
+type AIDLCDeliverable struct {
+	ID                 string   `json:"id,omitempty"`
+	Name               string   `json:"name,omitempty"`
+	Description        string   `json:"description,omitempty"`
+	Required           bool     `json:"required,omitempty"`
+	StepType           string   `json:"stepType,omitempty"`
+	EvaluationCriteria []string `json:"evaluationCriteria,omitempty"`
+}
+
+// AIDLCGate represents a review gate between phases.
+type AIDLCGate struct {
+	Name        string `json:"name,omitempty"`
+	Type        string `json:"type,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+// AIDLCDependencies defines the document dependency graph.
+type AIDLCDependencies struct {
+	Description string            `json:"description,omitempty"`
+	Graph       []AIDLCDependency `json:"graph,omitempty"`
+}
+
+// AIDLCDependency represents a single dependency edge.
+type AIDLCDependency struct {
+	From string `json:"from,omitempty"`
+	To   string `json:"to,omitempty"`
+}
+
+// AIDLCEvaluation defines the evaluation schema for documents.
+type AIDLCEvaluation struct {
+	Description  string                        `json:"description,omitempty"`
+	Schema       string                        `json:"schema,omitempty"`
+	ScoringScale *AIDLCScoringScale            `json:"scoringScale,omitempty"`
+	PassCriteria map[string]*AIDLCPassCriteria `json:"passCriteria,omitempty"`
+}
+
+// AIDLCScoringScale defines the scoring scale.
+type AIDLCScoringScale struct {
+	Min    int               `json:"min,omitempty"`
+	Max    int               `json:"max,omitempty"`
+	Labels map[string]string `json:"labels,omitempty"`
+}
+
+// AIDLCPassCriteria defines pass criteria for evaluation.
+type AIDLCPassCriteria struct {
+	MinWeightedScore         float64 `json:"minWeightedScore,omitempty"`
+	RequiredCategoryMinScore int     `json:"requiredCategoryMinScore,omitempty"`
+	MaxCriticalIssues        int     `json:"maxCriticalIssues,omitempty"`
+	MaxHighIssues            int     `json:"maxHighIssues,omitempty"`
+}
+
+// AIDLCCostEstimates contains LLM cost estimates.
+type AIDLCCostEstimates struct {
+	Description string              `json:"description,omitempty"`
+	Pricing     *AIDLCPricing       `json:"pricing,omitempty"`
+	Totals      *AIDLCCostTotals    `json:"totals,omitempty"`
+	PerDocument []AIDLCDocumentCost `json:"perDocument,omitempty"`
+}
+
+// AIDLCPricing defines token pricing.
+type AIDLCPricing struct {
+	InputTokenCostPer1K  float64 `json:"inputTokenCostPer1K,omitempty"`
+	OutputTokenCostPer1K float64 `json:"outputTokenCostPer1K,omitempty"`
+}
+
+// AIDLCCostTotals contains total cost estimates.
+type AIDLCCostTotals struct {
+	InputTokens      int     `json:"inputTokens,omitempty"`
+	OutputTokens     int     `json:"outputTokens,omitempty"`
+	EstimatedCostUSD float64 `json:"estimatedCostUSD,omitempty"`
+}
+
+// AIDLCDocumentCost contains per-document cost estimates.
+type AIDLCDocumentCost struct {
+	ID           string `json:"id,omitempty"`
+	InputTokens  int    `json:"inputTokens,omitempty"`
+	OutputTokens int    `json:"outputTokens,omitempty"`
+}
+
+// AIDLCTooling defines tooling integrations.
+type AIDLCTooling struct {
+	PIDLSpec       string   `json:"pidlSpec,omitempty"`
+	Visualizations []string `json:"visualizations,omitempty"`
+	Integrations   []string `json:"integrations,omitempty"`
 }

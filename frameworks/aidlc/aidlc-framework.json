@@ -1,0 +1,270 @@
+{
+  "$schema": "../../schema/framework.schema.json",
+  "framework": "AIDLC",
+  "name": "AWS AI-Driven Development Lifecycle",
+  "description": "A three-phase development lifecycle for AI-native software delivery, progressing from discovery through implementation to operations",
+  "version": "1.0.0",
+  "category": "development-lifecycle",
+  "type": "adapted",
+  "basedOn": {
+    "name": "AWS AI DLC",
+    "organization": "Amazon Web Services",
+    "documentation": "https://docs.aws.amazon.com/prescriptive-guidance/latest/ai-driven-software-development/"
+  },
+  "documentation": {
+    "article": "https://productbuildershq.com/frameworks/aws-aidlc",
+    "specification": "aidlc-workflow.pidl.json"
+  },
+  "phases": [
+    {
+      "id": "inception",
+      "name": "Inception",
+      "order": 1,
+      "description": "Discovery and requirements definition phase. Establishes vision, requirements, technical design, and architecture.",
+      "humanRole": "Strategic direction and approval",
+      "aiRole": "Document generation and analysis",
+      "deliverables": [
+        {
+          "id": "vision_document",
+          "name": "Vision Document",
+          "description": "Strategic vision and product direction defining problem space, target users, and success criteria",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["clarity", "completeness", "alignment", "feasibility"]
+        },
+        {
+          "id": "requirements_spec",
+          "name": "Requirements Specification",
+          "description": "Detailed functional and non-functional requirements with acceptance criteria",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["coverage", "clarity", "testability", "traceability"]
+        },
+        {
+          "id": "technical_spec",
+          "name": "Technical Specification",
+          "description": "Technical design including APIs, data models, and system interfaces",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["architecture", "scalability", "implementation_clarity", "technology_choices"]
+        },
+        {
+          "id": "architecture_spec",
+          "name": "Architecture Specification",
+          "description": "System architecture including component design, scalability, and deployment topology",
+          "required": false,
+          "stepType": "llm",
+          "evaluationCriteria": ["architecture", "scalability", "dependencies", "security"]
+        }
+      ],
+      "gates": [
+        {
+          "name": "Inception Review",
+          "type": "human",
+          "description": "Human review and approval of all Inception phase documents before proceeding to Construction"
+        }
+      ]
+    },
+    {
+      "id": "construction",
+      "name": "Construction",
+      "order": 2,
+      "description": "Implementation planning and testing phase. Creates implementation plan, test plan, integration plan, and security review.",
+      "humanRole": "Review and approval",
+      "aiRole": "Plan generation and security analysis",
+      "deliverables": [
+        {
+          "id": "implementation_plan",
+          "name": "Implementation Plan",
+          "description": "Detailed implementation plan with milestones, task breakdown, and resource allocation",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["completeness", "feasibility", "risk_assessment", "timeline"]
+        },
+        {
+          "id": "test_plan",
+          "name": "Test Plan",
+          "description": "Comprehensive test plan including test strategy, test cases, and automation approach",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["coverage", "edge_cases", "automation_readiness", "test_data", "environments"]
+        },
+        {
+          "id": "integration_plan",
+          "name": "Integration Plan",
+          "description": "Integration plan for connecting with external systems and services",
+          "required": false,
+          "stepType": "llm",
+          "evaluationCriteria": ["completeness", "compatibility", "rollout_strategy"]
+        },
+        {
+          "id": "security_review",
+          "name": "Security Review",
+          "description": "Security analysis including threat modeling, access control, and compliance requirements",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["threat_modeling", "access_control", "data_protection", "compliance", "incident_response"]
+        }
+      ],
+      "gates": [
+        {
+          "name": "Construction Review",
+          "type": "human",
+          "description": "Human review and approval of all Construction phase documents before proceeding to Operations"
+        }
+      ]
+    },
+    {
+      "id": "operations",
+      "name": "Operations",
+      "order": 3,
+      "description": "Deployment and operational readiness phase. Creates runbook, monitoring plan, disaster recovery plan, and SLO document.",
+      "humanRole": "Approval and ongoing governance",
+      "aiRole": "Operational documentation generation",
+      "deliverables": [
+        {
+          "id": "runbook",
+          "name": "Runbook",
+          "description": "Operational runbook with deployment procedures, troubleshooting guides, and maintenance tasks",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["completeness", "clarity", "actionability", "rollback_procedures"]
+        },
+        {
+          "id": "monitoring_plan",
+          "name": "Monitoring Plan",
+          "description": "Monitoring and observability plan with metrics, alerts, and dashboards",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["coverage", "alert_quality", "dashboard_design", "integration"]
+        },
+        {
+          "id": "disaster_recovery_plan",
+          "name": "Disaster Recovery Plan",
+          "description": "Disaster recovery plan with RTO/RPO targets, backup strategies, and failover procedures",
+          "required": false,
+          "stepType": "llm",
+          "evaluationCriteria": ["rto_rpo", "backup_strategy", "failover_procedures", "testing"]
+        },
+        {
+          "id": "slo_document",
+          "name": "SLO Document",
+          "description": "Service Level Objectives with SLIs, SLOs, error budgets, and reporting",
+          "required": true,
+          "stepType": "llm",
+          "evaluationCriteria": ["sli_definition", "slo_targets", "error_budgets", "stakeholder_alignment", "reporting"]
+        }
+      ],
+      "gates": [
+        {
+          "name": "Operations Review",
+          "type": "human",
+          "description": "Human review and approval of all Operations phase documents before production deployment"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "description": "Document dependencies define the workflow graph",
+    "graph": [
+      {"from": "vision_document", "to": "requirements_spec"},
+      {"from": "requirements_spec", "to": "technical_spec"},
+      {"from": "requirements_spec", "to": "architecture_spec"},
+      {"from": "technical_spec", "to": "implementation_plan"},
+      {"from": "architecture_spec", "to": "implementation_plan"},
+      {"from": "implementation_plan", "to": "test_plan"},
+      {"from": "implementation_plan", "to": "integration_plan"},
+      {"from": "technical_spec", "to": "security_review"},
+      {"from": "implementation_plan", "to": "runbook"},
+      {"from": "test_plan", "to": "monitoring_plan"},
+      {"from": "runbook", "to": "disaster_recovery_plan"},
+      {"from": "monitoring_plan", "to": "slo_document"}
+    ]
+  },
+  "evaluation": {
+    "description": "LLM-as-Judge evaluation for document quality",
+    "schema": "v2",
+    "scoringScale": {
+      "min": 1,
+      "max": 5,
+      "labels": {
+        "1": "Poor",
+        "2": "Below Average",
+        "3": "Average",
+        "4": "Good",
+        "5": "Excellent"
+      }
+    },
+    "passCriteria": {
+      "default": {
+        "minWeightedScore": 0.7,
+        "requiredCategoryMinScore": 3,
+        "maxCriticalIssues": 0,
+        "maxHighIssues": 2
+      },
+      "strict": {
+        "minWeightedScore": 0.85,
+        "requiredCategoryMinScore": 4,
+        "maxCriticalIssues": 0,
+        "maxHighIssues": 0
+      }
+    }
+  },
+  "costEstimates": {
+    "description": "Estimated LLM costs for full workflow (at Claude Sonnet pricing)",
+    "pricing": {
+      "inputTokenCostPer1K": 0.003,
+      "outputTokenCostPer1K": 0.015
+    },
+    "totals": {
+      "inputTokens": 127000,
+      "outputTokens": 95000,
+      "estimatedCostUSD": 1.81
+    },
+    "perDocument": [
+      {"id": "vision_document", "inputTokens": 5000, "outputTokens": 3000},
+      {"id": "requirements_spec", "inputTokens": 8000, "outputTokens": 6000},
+      {"id": "technical_spec", "inputTokens": 12000, "outputTokens": 10000},
+      {"id": "architecture_spec", "inputTokens": 10000, "outputTokens": 8000},
+      {"id": "implementation_plan", "inputTokens": 15000, "outputTokens": 8000},
+      {"id": "test_plan", "inputTokens": 12000, "outputTokens": 10000},
+      {"id": "integration_plan", "inputTokens": 10000, "outputTokens": 6000},
+      {"id": "security_review", "inputTokens": 15000, "outputTokens": 12000},
+      {"id": "runbook", "inputTokens": 12000, "outputTokens": 10000},
+      {"id": "monitoring_plan", "inputTokens": 10000, "outputTokens": 8000},
+      {"id": "disaster_recovery_plan", "inputTokens": 10000, "outputTokens": 8000},
+      {"id": "slo_document", "inputTokens": 8000, "outputTokens": 6000}
+    ]
+  },
+  "tooling": {
+    "pidlSpec": "aidlc-workflow.pidl.json",
+    "visualizations": [
+      "Mermaid sequence diagram",
+      "SVG workflow diagram",
+      "Infographic"
+    ],
+    "integrations": [
+      "VisionSpec (bidirectional sync)",
+      "PIDL (workflow visualization)",
+      "PRISM (maturity tracking)"
+    ]
+  },
+  "references": [
+    {
+      "title": "AWS AI-Driven Development Lifecycle",
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/ai-driven-software-development/",
+      "organization": "Amazon Web Services"
+    },
+    {
+      "title": "AWS Project Mantle",
+      "url": "https://productbuildershq.com/case-studies/aws-project-mantle",
+      "description": "Case study of AIDLC at ASDM Level 5"
+    }
+  ],
+  "relatedFrameworks": [
+    {
+      "framework": "ASDM",
+      "relationship": "AIDLC is the methodology used at ASDM Level 4 (AI-Native Workflows)"
+    }
+  ]
+}
