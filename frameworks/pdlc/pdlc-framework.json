@@ -1,0 +1,168 @@
+{
+  "$schema": "../../schema/framework.schema.json",
+  "framework": "PDLC",
+  "name": "Product Development Lifecycle",
+  "description": "A six-stage development lifecycle spanning product definition through operations. Each of AWS AI-DLC's three phases is split into parallel product and builder lenses, so every stage has a single accountable role while the two lenses within a phase can proceed together.",
+  "version": "0.1.0",
+  "category": "development-lifecycle",
+  "type": "original",
+  "documentation": {
+    "specification": "https://github.com/ProductBuildersHQ/pdlc"
+  },
+  "phases": [
+    {
+      "id": "product-definition",
+      "name": "Product Definition",
+      "order": 1,
+      "description": "Discovery through baseline handoff: establishes product vision, requirements, experience, and the approved Product Baseline the builder consumes. Governed in detail by the pdlc specification's seven-stage Product Definition Lifecycle.",
+      "role": "product",
+      "aiDlcPhase": "inception",
+      "humanRole": "Product person owns and approves every sub-stage; reviewers (design, QA, docs, localization, security, executive) participate at gates",
+      "subStages": [
+        {"id": "discovery", "name": "Discovery", "order": 1, "description": "Why build this, and is it worth building? Opportunity spec, market analysis, personas, evidence."},
+        {"id": "definition", "name": "Definition", "order": 2, "description": "What are we building, for whom, and how do we describe it? MRD/PRD/UXD, requirement registry, GTM narrative."},
+        {"id": "experience-prototype", "name": "Experience & Prototype", "order": 3, "description": "What does it feel like, and does the definition hold together end-to-end? Runnable static prototype, acceptance journeys."},
+        {"id": "api", "name": "API", "order": 4, "description": "What is the product's programmable contract? Advisory-draft OpenAPI specification the builder may refine."},
+        {"id": "documentation", "name": "Documentation", "order": 5, "description": "How do users and administrators succeed? User and admin guides, written against the prototype."},
+        {"id": "localization", "name": "Localization", "order": 6, "description": "Does it work globally? Guides translated first, then UI string catalogs, then l10n coverage judged."},
+        {"id": "baseline-handoff", "name": "Baseline & Handoff", "order": 7, "description": "Freeze what was approved; hand it to the builder. Reconciled execution spec, Product Baseline manifest, export package."}
+      ],
+      "deliverables": [
+        {"id": "product_baseline", "name": "Product Baseline", "description": "Revision-pinned, approved manifest handed to the builder", "required": true, "authority": "normative"},
+        {"id": "requirement_registry", "name": "Requirement Registry", "description": "Immutable requirement IDs with structured acceptance criteria", "required": true, "authority": "normative"},
+        {"id": "prototype", "name": "Runnable Prototype", "description": "Executable specification of the experience; proves the definition is coherent", "required": true, "authority": "advisory"},
+        {"id": "openapi_draft", "name": "OpenAPI Draft", "description": "Advisory-draft programmable contract; refined into the authoritative contract during Builder Definition", "required": false, "authority": "advisory"},
+        {"id": "user_admin_guides", "name": "User and Admin Guides", "description": "Source-locale guides written against the prototype", "required": true, "authority": "normative"}
+      ],
+      "gates": [
+        {"name": "Baseline Approval", "type": "human", "description": "Readiness report green for the declared profile, no unresolved error-severity findings, baseline approved and revision-pinned"}
+      ]
+    },
+    {
+      "id": "builder-definition",
+      "name": "Builder Definition",
+      "order": 2,
+      "description": "Consumes the approved Product Baseline and produces the authoritative technical design: requirements translation, architecture, and the finalized API contract.",
+      "role": "builder",
+      "aiDlcPhase": "inception",
+      "humanRole": "Builder person (engineer, AI coding agent) owns; technical lead / architecture review approves",
+      "deliverables": [
+        {"id": "technical_requirements", "name": "Technical Requirements (TRD/IRD)", "description": "Translates the Product Baseline into technical requirements, architecture, and data models", "required": true, "authority": "normative"},
+        {"id": "api_contract", "name": "API Contract", "description": "Refines Product Definition's advisory OpenAPI draft into the finalized, authoritative technical contract", "required": true, "authority": "normative"},
+        {"id": "reference_sdk_client", "name": "Reference SDK Client", "description": "Auto-generated client library from the finalized API contract; used as a reference implementation and for acceptance testing. Advisory — proves the contract is implementable and testable, not itself a requirement, mirroring how Product Definition's prototype is advisory evidence for the PRD/UXD.", "required": false, "authority": "advisory"}
+      ],
+      "gates": [
+        {"name": "Technical Design Review", "type": "human", "description": "Technical design is feasible, API contract finalized, risks identified and mitigation planned"}
+      ]
+    },
+    {
+      "id": "implementation",
+      "name": "Implementation",
+      "order": 3,
+      "description": "Code is written against the Builder Definition technical contract.",
+      "role": "builder",
+      "aiDlcPhase": "construction",
+      "securityOverlayNote": "Application Security Posture Management domains 1-5 (git posture, code security, secret/PII scan, open source security, SBOM) overlay this stage. The overlay is defined and owned by consuming security-analysis tooling (e.g. Threat Model Spec), not by this framework.",
+      "deliverables": [
+        {"id": "source_code", "name": "Source Code", "description": "Implementation against the finalized technical contract", "required": true, "authority": "normative"},
+        {"id": "sbom", "name": "SBOM", "description": "Software bill of materials generated at build", "required": true, "authority": "normative"}
+      ],
+      "gates": [
+        {"name": "Code Review / CI Gate", "type": "automated+human", "description": "Automated checks (build, lint, test, SAST/SCA) plus human code review"}
+      ]
+    },
+    {
+      "id": "deployment",
+      "name": "Deployment",
+      "order": 4,
+      "description": "Built artifacts are released to target environments.",
+      "role": "builder",
+      "aiDlcPhase": "construction",
+      "securityOverlayNote": "ASPM domains 6-9 (IaC scan, CI/CD posture, container security, artifact security) overlay this stage. The overlay is defined and owned by consuming security-analysis tooling, not by this framework.",
+      "deliverables": [
+        {"id": "iac", "name": "Infrastructure as Code", "description": "Deployment topology and infrastructure definitions", "required": true, "authority": "normative"},
+        {"id": "deployment_manifest", "name": "Deployment Manifest", "description": "Environment configuration and release definition", "required": true, "authority": "normative"}
+      ],
+      "gates": [
+        {"name": "Release Gate", "type": "automated+human", "description": "Deployment validation, rollback readiness, release approval"}
+      ]
+    },
+    {
+      "id": "builder-operations",
+      "name": "Builder Operations",
+      "order": 5,
+      "description": "Infrastructure, security, and reliability operations for the deployed system: monitoring, incident response, cloud security posture. Runs concurrently with Product Operations, not sequentially after it.",
+      "role": "builder",
+      "aiDlcPhase": "operations",
+      "parallelWith": ["product-operations"],
+      "securityOverlayNote": "ASPM domain 10 (cloud context) overlays this stage, alongside dynamic testing (DAST, penetration testing, red teaming) which is not an ASPM domain. The overlay is defined and owned by consuming security-analysis tooling, not by this framework.",
+      "deliverables": [
+        {"id": "monitoring_plan", "name": "Monitoring Plan", "description": "Metrics, alerts, dashboards", "required": true, "authority": "normative"},
+        {"id": "incident_runbook", "name": "Incident Runbook", "description": "Deployment procedures, troubleshooting, maintenance", "required": true, "authority": "normative"},
+        {"id": "slo_document", "name": "SLO Document", "description": "SLIs, SLOs, error budgets, reporting", "required": true, "authority": "normative"}
+      ]
+    },
+    {
+      "id": "product-operations",
+      "name": "Product Operations",
+      "order": 6,
+      "description": "Adoption, usage, and feedback operations for the shipped product: activation, retention, feature usage, PMF signal, and customer feedback synthesis that feeds the next Product Definition baseline revision. Runs concurrently with Builder Operations, not sequentially after it.",
+      "role": "product",
+      "aiDlcPhase": "operations",
+      "parallelWith": ["builder-operations"],
+      "humanRole": "Product person owns; drift and adoption signal reviewed against the current baseline",
+      "deliverables": [
+        {"id": "adoption_report", "name": "Adoption Report", "description": "Activation, feature usage, and adoption metrics against the Product Baseline's success criteria", "required": true, "authority": "normative"},
+        {"id": "retention_analysis", "name": "Retention Analysis", "description": "Retention and churn signal", "required": false, "authority": "normative"},
+        {"id": "feedback_synthesis", "name": "Feedback Synthesis", "description": "Customer feedback reconciled against the current baseline (drift detection)", "required": true, "authority": "normative"}
+      ],
+      "gates": [
+        {"name": "Baseline Revision Trigger", "type": "human", "description": "Significant drift between the approved definition and shipped/observed reality triggers a new Product Definition baseline revision"}
+      ]
+    }
+  ],
+  "dependencies": {
+    "description": "Phase dependency graph. Operations phases feed back into Product Definition, closing the lifecycle rather than terminating it.",
+    "graph": [
+      {"from": "product-definition", "to": "builder-definition"},
+      {"from": "builder-definition", "to": "implementation"},
+      {"from": "implementation", "to": "deployment"},
+      {"from": "deployment", "to": "builder-operations"},
+      {"from": "deployment", "to": "product-operations"},
+      {"from": "builder-operations", "to": "product-definition"},
+      {"from": "product-operations", "to": "product-definition"}
+    ]
+  },
+  "tooling": {
+    "integrations": [
+      "specification-workflow-spec (tags each spec type with its PDLC stage for spec-driven analysis)",
+      "Threat Model Spec (ASPM security-posture overlay on the builder stages; tms analyze command)",
+      "VisionSpec / VisionStudio (initiative, phase, and RMI tracking against PDLC-staged work)"
+    ]
+  },
+  "relatedFrameworks": [
+    {
+      "framework": "AIDLC",
+      "relationship": "PDLC splits each AWS AI-DLC phase into parallel product and builder lenses: Inception into Product Definition + Builder Definition, Construction into Implementation + Deployment, Operation into Builder Operations + Product Operations (the last pair runs concurrently, not sequentially).",
+      "stageMapping": [
+        {"stage": "product-definition", "mapsTo": ["inception"]},
+        {"stage": "builder-definition", "mapsTo": ["inception"]},
+        {"stage": "implementation", "mapsTo": ["construction"]},
+        {"stage": "deployment", "mapsTo": ["construction"]},
+        {"stage": "builder-operations", "mapsTo": ["operations"]},
+        {"stage": "product-operations", "mapsTo": ["operations"]}
+      ]
+    }
+  ],
+  "references": [
+    {
+      "title": "PDLC Specification",
+      "url": "https://github.com/ProductBuildersHQ/pdlc"
+    },
+    {
+      "title": "AWS AI-Driven Development Lifecycle",
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/ai-driven-software-development/",
+      "note": "PDLC's phase-to-lens split is defined relative to this three-phase model"
+    }
+  ]
+}

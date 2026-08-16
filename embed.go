@@ -22,6 +22,9 @@ var pbmmJSON []byte
 //go:embed frameworks/aidlc/aidlc-framework.json
 var aidlcJSON []byte
 
+//go:embed frameworks/pdlc/pdlc-framework.json
+var pdlcJSON []byte
+
 //go:embed frameworks
 var frameworksFS embed.FS
 
@@ -31,18 +34,21 @@ var (
 	asdmOnce    sync.Once
 	pbmmOnce    sync.Once
 	aidlcOnce   sync.Once
+	pdlcOnce    sync.Once
 
 	aiDoraCached  *AIDoraFramework
 	aiSpaceCached *AISpaceFramework
 	asdmCached    *ASDMFramework
 	pbmmCached    *PBMMFramework
 	aidlcCached   *AIDLCFramework
+	pdlcCached    *PDLCFramework
 
 	aiDoraErr  error
 	aiSpaceErr error
 	asdmErr    error
 	pbmmErr    error
 	aidlcErr   error
+	pdlcErr    error
 )
 
 // AIDora returns the AI-DORA framework.
@@ -178,6 +184,33 @@ func MustAIDLC() *AIDLCFramework {
 // AIDLCJSON returns the raw JSON bytes for AIDLC.
 func AIDLCJSON() []byte {
 	return aidlcJSON
+}
+
+// PDLC returns the Product Development Lifecycle framework.
+// The result is cached after the first call.
+func PDLC() (*PDLCFramework, error) {
+	pdlcOnce.Do(func() {
+		pdlcCached = &PDLCFramework{}
+		pdlcErr = json.Unmarshal(pdlcJSON, pdlcCached)
+		if pdlcErr != nil {
+			pdlcErr = fmt.Errorf("failed to parse PDLC: %w", pdlcErr)
+		}
+	})
+	return pdlcCached, pdlcErr
+}
+
+// MustPDLC returns the PDLC framework or panics on error.
+func MustPDLC() *PDLCFramework {
+	f, err := PDLC()
+	if err != nil {
+		panic(err)
+	}
+	return f
+}
+
+// PDLCJSON returns the raw JSON bytes for PDLC.
+func PDLCJSON() []byte {
+	return pdlcJSON
 }
 
 // FS returns the embedded filesystem containing all framework JSON files.
