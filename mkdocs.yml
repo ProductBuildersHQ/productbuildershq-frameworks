@@ -79,6 +79,7 @@ nav:
       - Inception Phase: frameworks/aidlc/inception.md
       - Construction Phase: frameworks/aidlc/construction.md
       - Operations Phase: frameworks/aidlc/operations.md
+    - PDLC: frameworks/pdlc/index.md
     - ASDM: frameworks/asdm/index.md
     - AI-DORA: frameworks/ai-dora/index.md
     - AI-SPACE: frameworks/ai-space/index.md

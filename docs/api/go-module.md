@@ -156,6 +156,51 @@ type AIDLCFramework struct {
 }
 ```
 
+### PDLC
+
+```go
+pdlc, err := frameworks.PDLC()
+pdlc := frameworks.MustPDLC()
+jsonBytes := frameworks.PDLCJSON()
+```
+
+**Type:** `PDLCFramework`
+
+```go
+type PDLCFramework struct {
+    Schema            string              `json:"$schema,omitempty"`
+    Framework         string              `json:"framework,omitempty"`
+    Name              string              `json:"name,omitempty"`
+    Description       string              `json:"description,omitempty"`
+    Version           string              `json:"version,omitempty"`
+    Category          string              `json:"category,omitempty"`
+    Type              string              `json:"type,omitempty"`
+    Documentation     PDLCDocumentation   `json:"documentation,omitempty"`
+    Phases            []PDLCPhase         `json:"phases,omitempty"`
+    Dependencies      *PDLCDependencies   `json:"dependencies,omitempty"`
+    Tooling           *PDLCTooling        `json:"tooling,omitempty"`
+    RelatedFrameworks []FrameworkRelation `json:"relatedFrameworks,omitempty"`
+    References        []Reference         `json:"references,omitempty"`
+}
+
+type PDLCPhase struct {
+    ID                  string            `json:"id,omitempty"`
+    Name                string            `json:"name,omitempty"`
+    Order               int               `json:"order,omitempty"`
+    Description         string            `json:"description,omitempty"`
+    Role                string            `json:"role,omitempty"` // "product" | "builder"
+    AIDLCPhase          string            `json:"aiDlcPhase,omitempty"`
+    ParallelWith        []string          `json:"parallelWith,omitempty"`
+    HumanRole           string            `json:"humanRole,omitempty"`
+    SecurityOverlayNote string            `json:"securityOverlayNote,omitempty"`
+    SubStages           []PDLCSubStage    `json:"subStages,omitempty"`
+    Deliverables        []PDLCDeliverable `json:"deliverables,omitempty"`
+    Gates               []PDLCGate        `json:"gates,omitempty"`
+}
+```
+
+`PDLCPhase` stage IDs (`product-definition`, `builder-definition`, `implementation`, `deployment`, `builder-operations`, `product-operations`) are stable and imported by consumers — e.g. `specification-workflow-spec` tags each spec type with a PDLC stage, and Threat Model Spec's ASPM security-posture domains map onto the three builder-side stages. See the [PDLC framework page](../frameworks/pdlc/index.md) for the stage-by-stage guide.
+
 ## Common Types
 
 ### Metric
@@ -192,6 +237,23 @@ type Reference struct {
     URL   string `json:"url,omitempty"`
     Year  int    `json:"year,omitempty"`
     Note  string `json:"note,omitempty"`
+}
+```
+
+### FrameworkRelation / StageCrosswalk
+
+Generic cross-framework crosswalk types, not specific to any one framework. `PDLCFramework.RelatedFrameworks` uses these to declare its AIDLC stage mapping; any framework can adopt the same pattern to crosswalk against another without a bespoke type.
+
+```go
+type FrameworkRelation struct {
+    Framework    string           `json:"framework,omitempty"`
+    Relationship string           `json:"relationship,omitempty"`
+    StageMapping []StageCrosswalk `json:"stageMapping,omitempty"`
+}
+
+type StageCrosswalk struct {
+    Stage  string   `json:"stage,omitempty"`
+    MapsTo []string `json:"mapsTo,omitempty"`
 }
 ```
 

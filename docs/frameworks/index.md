@@ -11,6 +11,7 @@ Structured methodologies for AI-native software development.
 | Framework | Type | Description |
 |-----------|------|-------------|
 | [**AIDLC**](aidlc/index.md) | Adapted | AWS AI-Driven Development Lifecycle with 3 phases and 12 document types |
+| [**PDLC**](pdlc/index.md) | Original | Product Development Lifecycle with 6 stages; canonical stage-ID hub other frameworks crosswalk through |
 
 ### Maturity Models
 
@@ -51,6 +52,10 @@ graph TB
         OPS[Operations]
     end
 
+    subgraph "Stage-ID Hub"
+        PDLC[PDLC]
+    end
+
     subgraph "Metrics"
         DORA[AI-DORA]
         SPACE[AI-SPACE]
@@ -59,20 +64,21 @@ graph TB
     L1 --> L2 --> L3 --> L4 --> L5 --> L6 --> L7
     L4 -.->|uses| AIDLC
     AIDLC --> INC --> CON --> OPS
+    AIDLC -.->|stages map to| PDLC
     L4 -.->|measures| DORA
     L4 -.->|measures| SPACE
 ```
 
 ## Comparison Matrix
 
-| Aspect | AIDLC | ASDM | PBMM | AI-DORA | AI-SPACE |
-|--------|-------|------|------|---------|----------|
-| **Purpose** | Workflow | Maturity | Maturity | Metrics | Metrics |
-| **Category** | Lifecycle | Delivery | Skills | Performance | Productivity |
-| **Focus** | AI document generation | Team autonomy | Individual growth | Delivery speed | Developer experience |
-| **Structure** | 3 phases | 7 levels | 7 levels | 4 metrics | 5 dimensions |
-| **Human Role** | Approval gates | Decreasing | Converging | Measurement | Measurement |
-| **AI Role** | Document generation | Increasing | N/A | Accelerator | Augmentation |
+| Aspect | AIDLC | PDLC | ASDM | PBMM | AI-DORA | AI-SPACE |
+|--------|-------|------|------|------|---------|----------|
+| **Purpose** | Workflow | Lifecycle | Maturity | Maturity | Metrics | Metrics |
+| **Category** | Lifecycle | Lifecycle | Delivery | Skills | Performance | Productivity |
+| **Focus** | AI document generation | Product/builder stage accountability | Team autonomy | Individual growth | Delivery speed | Developer experience |
+| **Structure** | 3 phases | 6 stages | 7 levels | 7 levels | 4 metrics | 5 dimensions |
+| **Human Role** | Approval gates | Per-stage owner (product or builder) | Decreasing | Converging | Measurement | Measurement |
+| **AI Role** | Document generation | N/A (structural, not AI-specific) | Increasing | N/A | Accelerator | Augmentation |
 
 ## When to Use Each Framework
 
@@ -87,6 +93,18 @@ Use AIDLC when:
 
 !!! example "AIDLC Use Case"
     A team starting a new microservice uses AIDLC to generate Vision → Requirements → Technical Spec → Implementation Plan → Test Plan → Runbook with LLM assistance and human review gates.
+
+### PDLC (Product Development Lifecycle)
+
+Use PDLC when:
+
+- Assigning single-owner accountability to each stage of product/engineering work (product vs. builder)
+- Crosswalking stage IDs between other frameworks (e.g. AIDLC phases, ASPM security domains) without hand-authoring pairwise mappings
+- Tracking a product baseline from definition through operations and back (revision loop)
+- Overlaying a domain-specific posture framework (e.g. security) onto specific builder-side stages
+
+!!! example "PDLC Use Case"
+    A security-analysis tool overlays its 10 ASPM domains onto PDLC's Implementation, Deployment, and Builder Operations stages, while Threat Model Spec cites the same PDLC stage IDs so findings stay stage-addressable across tools.
 
 ### ASDM (Autonomous Software Delivery Model)
 
@@ -143,6 +161,7 @@ All frameworks are versioned and evolve based on industry practices:
 | Framework | Current Version | Last Updated | Status |
 |-----------|-----------------|--------------|--------|
 | AIDLC | 1.0.0 | 2025 | Active |
+| PDLC | 0.1.0 | 2026 | Active |
 | ASDM | 1.0.0 | 2025 | Active |
 | PBMM | 1.0.0 | 2025 | Active |
 | AI-DORA | 1.0.0 | 2025 | Active |
