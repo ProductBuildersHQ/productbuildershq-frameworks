@@ -1,0 +1,74 @@
+{
+  "irVersion": "1.0",
+  "project": "productbuildershq-frameworks",
+  "repository": "https://github.com/ProductBuildersHQ/productbuildershq-frameworks",
+  "versioning": "semver",
+  "commitConvention": "conventional",
+  "maintainers": ["ProductBuildersHQ", "johncwang@gmail.com"],
+  "releases": [
+    {
+      "version": "v0.3.0",
+      "date": "2026-08-15",
+      "commit": "3ee1651",
+      "highlights": [
+        { "description": "PDLC (Product Development Lifecycle) added as the canonical stage-ID hub: a native six-stage lifecycle splitting each AIDLC phase into parallel product/builder lenses, with a crosswalk other frameworks map their stages onto", "commit": "f297b4c" }
+      ],
+      "added": [
+        { "description": "`PDLCFramework` type and component types (`PDLCPhase`, `PDLCSubStage`, `PDLCDeliverable`, `PDLCGate`, `PDLCDependencies`/`PDLCDependency`, `PDLCTooling`) modeling the six-stage Product Development Lifecycle", "commit": "f297b4c" },
+        { "description": "Generic `FrameworkRelation`/`StageCrosswalk` types so any two cataloged frameworks can crosswalk through a shared stage-mapping shape instead of a bespoke pairwise mapping type", "commit": "f297b4c" },
+        { "description": "`frameworks/pdlc/pdlc-framework.json`: six-stage catalog entry with phases (role, `aiDlcPhase`, deliverables, gates, `parallelWith`), Product Definition's seven detailed sub-stages, a dependency graph closing the loop back to `product-definition`, and an AIDLC crosswalk via `relatedFrameworks`", "commit": "e89a454" },
+        { "description": "`PDLC()`, `MustPDLC()`, `PDLCJSON()` accessor functions mirroring the existing `AIDLC()`/`MustAIDLC()` pattern", "commit": "e89a454" }
+      ],
+      "tests": [
+        { "description": "`TestPDLC`: 6 phases in canonical order, 2 product/4 builder role split, Product Definition's 7 sub-stages, Builder/Product Operations run in parallel (not sequentially), AIDLC crosswalk symmetry (every AIDLC phase claimed by exactly 2 PDLC stages), dependency graph closes the loop", "commit": "5c6ef72" }
+      ],
+      "documentation": [
+        { "description": "Root README catalog table row and Go usage example for PDLC; `frameworks/pdlc/README.md` documents the six-stage model and function reference", "commit": "06bea7a" },
+        { "description": "New `docs/frameworks/pdlc/index.md` MkDocs page covering the six PDLC stages, AIDLC/ASPM relationships, and Go usage; wired into `mkdocs.yml` nav", "commit": "3ee1651" },
+        { "description": "PDLC added to the Frameworks Overview table, relationship diagram, comparison matrix, and version/status table", "commit": "3ee1651" },
+        { "description": "`PDLC()`/`MustPDLC()`/`PDLCJSON()` and the generic `FrameworkRelation`/`StageCrosswalk` types documented in the Go Module API reference", "commit": "3ee1651" }
+      ]
+    },
+    {
+      "version": "v0.2.0",
+      "date": "2026-07-18",
+      "commit": "72277e2",
+      "highlights": [
+        { "description": "AIDLC (AI-Driven Development Lifecycle) added as the first Development Lifecycle framework, plus a full MkDocs documentation site", "commit": "9d0f322" }
+      ],
+      "added": [
+        { "description": "AIDLC framework: 3 phases (Inception, Construction, Operations), 12 document deliverables with evaluation criteria, human review gates between phases, LLM cost estimates (~$1.81 per full workflow), dependency graph for document generation order", "commit": "9d0f322" },
+        { "description": "AIDLC PIDL process specification (`aidlc-workflow.pidl.json`) with input/output data ports, latency budgets (P50/P95/P99), failure modes, and retry strategies", "commit": "9d0f322" },
+        { "description": "`AIDLC()`, `MustAIDLC()`, `AIDLCJSON()` accessor functions and full AIDLC type definitions", "commit": "9d0f322" }
+      ],
+      "documentation": [
+        { "description": "MkDocs documentation site with Material theme: homepage, getting started guides, framework docs (AIDLC, ASDM, AI-DORA, AI-SPACE, PBMM), Go API reference, PRISM/VisionSpec/PIDL integration guides, contributing guide", "commit": "72277e2" }
+      ]
+    },
+    {
+      "version": "v0.1.0",
+      "date": "2026-06-07",
+      "commit": "38ad7f5",
+      "highlights": [
+        { "description": "Initial framework catalog release: two original maturity models (ASDM, PBMM) and two AI-adapted metrics frameworks (AI-DORA, AI-SPACE), with a Go module providing typed embedded access", "commit": "4c05c37" }
+      ],
+      "added": [
+        { "description": "ASDM (Autonomous Software Delivery Model) framework spec: 7-level progression from Agile/Scrum to autonomous operations, with AWS Project Mantle (L5) and StrongDM Software Factory (L6) case studies", "commit": "0ef1159" },
+        { "description": "PBMM (Product Builder Maturity Model) framework spec: 7-level dual-path model (PM path, Engineer path) converging at L5-L6, with framework mappings to AI-DORA and AI-SPACE", "commit": "fc05219" },
+        { "description": "AI-DORA framework spec: 4 metrics (Deployment Frequency, Lead Time, Change Failure Rate, MTTR) with AI-recalibrated elite/high/medium/low thresholds", "commit": "2ebffb2" },
+        { "description": "AI-SPACE framework spec: 25 metrics across 5 dimensions (Satisfaction, Performance, Activity, Communication, Efficiency)", "commit": "137bf58" },
+        { "description": "Go module with embedded framework access: `AIDora()`, `AISpace()`, `ASDM()`, `PBMM()` typed accessors, `Must*` variants, `*JSON()` raw-bytes access, `FS()` embedded filesystem", "commit": "4c05c37" }
+      ],
+      "tests": [
+        { "description": "Framework embedding tests verifying all four frameworks parse correctly, plus `Must*` functions, raw JSON access, and embedded FS", "commit": "88f748d" }
+      ],
+      "documentation": [
+        { "description": "README with framework overview, case studies, Go module installation/usage examples, function reference table, PRISM integration patterns", "commit": "67216c9" }
+      ],
+      "internal": [
+        { "description": "Shared GitHub Actions CI/lint/CodeQL workflows and golangci-lint configuration", "commit": "38ad7f5" },
+        { "description": "Apache 2.0 LICENSE", "commit": "1285840" }
+      ]
+    }
+  ]
+}
