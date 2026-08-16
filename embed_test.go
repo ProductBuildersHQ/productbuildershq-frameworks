@@ -159,6 +159,96 @@ func TestAIDLC(t *testing.T) {
 	}
 }
 
+func TestPDLC(t *testing.T) {
+	f, err := PDLC()
+	if err != nil {
+		t.Fatalf("PDLC() error: %v", err)
+	}
+	if f.Framework != "PDLC" {
+		t.Errorf("Framework = %q, want %q", f.Framework, "PDLC")
+	}
+	if f.Type != "original" {
+		t.Errorf("Type = %q, want %q", f.Type, "original")
+	}
+	if len(f.Phases) != 6 {
+		t.Errorf("len(Phases) = %d, want 6", len(f.Phases))
+	}
+
+	// Verify phase IDs and order.
+	expectedPhases := []string{
+		"product-definition", "builder-definition", "implementation",
+		"deployment", "builder-operations", "product-operations",
+	}
+	for i, p := range f.Phases {
+		if p.ID != expectedPhases[i] {
+			t.Errorf("Phases[%d].ID = %q, want %q", i, p.ID, expectedPhases[i])
+		}
+		if p.Order != i+1 {
+			t.Errorf("Phases[%d].Order = %d, want %d", i, p.Order, i+1)
+		}
+	}
+
+	// Product Definition carries the seven pdlc sub-stages.
+	if len(f.Phases[0].SubStages) != 7 {
+		t.Errorf("Product Definition SubStages = %d, want 7", len(f.Phases[0].SubStages))
+	}
+
+	// Role split: exactly 2 product-owned, 4 builder-owned.
+	roleCounts := map[string]int{}
+	for _, p := range f.Phases {
+		roleCounts[p.Role]++
+	}
+	if roleCounts["product"] != 2 {
+		t.Errorf("product-role phases = %d, want 2", roleCounts["product"])
+	}
+	if roleCounts["builder"] != 4 {
+		t.Errorf("builder-role phases = %d, want 4", roleCounts["builder"])
+	}
+
+	// Builder Operations and Product Operations are parallel, not sequential.
+	builderOps := f.Phases[4]
+	productOps := f.Phases[5]
+	if builderOps.ID != "builder-operations" || len(builderOps.ParallelWith) == 0 || builderOps.ParallelWith[0] != "product-operations" {
+		t.Errorf("builder-operations.ParallelWith = %v, want [product-operations]", builderOps.ParallelWith)
+	}
+	if productOps.ID != "product-operations" || len(productOps.ParallelWith) == 0 || productOps.ParallelWith[0] != "builder-operations" {
+		t.Errorf("product-operations.ParallelWith = %v, want [builder-operations]", productOps.ParallelWith)
+	}
+
+	// AIDLC crosswalk: every PDLC phase maps to exactly one AIDLC phase, and
+	// each AIDLC phase (inception, construction, operations) claims exactly 2.
+	if len(f.RelatedFrameworks) != 1 || f.RelatedFrameworks[0].Framework != "AIDLC" {
+		t.Fatalf("RelatedFrameworks = %+v, want a single AIDLC relation", f.RelatedFrameworks)
+	}
+	aiDlcCounts := map[string]int{}
+	for _, c := range f.RelatedFrameworks[0].StageMapping {
+		if len(c.MapsTo) != 1 {
+			t.Errorf("StageMapping[%s].MapsTo = %v, want exactly 1 target", c.Stage, c.MapsTo)
+			continue
+		}
+		aiDlcCounts[c.MapsTo[0]]++
+	}
+	for _, phase := range []string{"inception", "construction", "operations"} {
+		if aiDlcCounts[phase] != 2 {
+			t.Errorf("AIDLC phase %q claimed by %d PDLC stages, want 2", phase, aiDlcCounts[phase])
+		}
+	}
+
+	// Dependency graph closes the loop back to product-definition.
+	if f.Dependencies == nil || len(f.Dependencies.Graph) == 0 {
+		t.Fatal("Dependencies.Graph is empty")
+	}
+	var closesLoop bool
+	for _, d := range f.Dependencies.Graph {
+		if d.To == "product-definition" {
+			closesLoop = true
+		}
+	}
+	if !closesLoop {
+		t.Error("dependency graph never feeds back into product-definition")
+	}
+}
+
 func TestMustFunctions(t *testing.T) {
 	// These should not panic since the JSON is valid
 	_ = MustAIDora()
@@ -166,6 +256,7 @@ func TestMustFunctions(t *testing.T) {
 	_ = MustASDM()
 	_ = MustPBMM()
 	_ = MustAIDLC()
+	_ = MustPDLC()
 }
 
 func TestRawJSON(t *testing.T) {
@@ -183,6 +274,9 @@ func TestRawJSON(t *testing.T) {
 	}
 	if len(AIDLCJSON()) == 0 {
 		t.Error("AIDLCJSON() is empty")
+	}
+	if len(PDLCJSON()) == 0 {
+		t.Error("PDLCJSON() is empty")
 	}
 }
 
