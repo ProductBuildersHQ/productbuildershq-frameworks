@@ -375,3 +375,118 @@ type AIDLCTooling struct {
 	Visualizations []string `json:"visualizations,omitempty"`
 	Integrations   []string `json:"integrations,omitempty"`
 }
+
+// =============================================================================
+// Cross-Framework Crosswalk Types
+// =============================================================================
+
+// FrameworkRelation describes this framework's relationship to another
+// cataloged framework, including an explicit stage/phase-level crosswalk.
+type FrameworkRelation struct {
+	Framework    string           `json:"framework,omitempty"`
+	Relationship string           `json:"relationship,omitempty"`
+	StageMapping []StageCrosswalk `json:"stageMapping,omitempty"`
+}
+
+// StageCrosswalk maps one stage/phase ID in this framework to one or more
+// phase IDs in the related framework named by the enclosing FrameworkRelation.
+type StageCrosswalk struct {
+	Stage  string   `json:"stage,omitempty"`
+	MapsTo []string `json:"mapsTo,omitempty"`
+}
+
+// =============================================================================
+// PDLC Types
+// =============================================================================
+
+// PDLCFramework represents the ProductBuildersHQ Product Development Lifecycle:
+// a six-stage lifecycle spanning product definition through operations. PDLC is
+// the canonical hub other lifecycle and posture frameworks (AIDLC, ASPM) map
+// into via RelatedFrameworks / stage IDs, so consumers can crosswalk any two
+// frameworks through PDLC without pairwise mappings.
+type PDLCFramework struct {
+	Schema            string              `json:"$schema,omitempty"`
+	Framework         string              `json:"framework,omitempty"`
+	Name              string              `json:"name,omitempty"`
+	Description       string              `json:"description,omitempty"`
+	Version           string              `json:"version,omitempty"`
+	Category          string              `json:"category,omitempty"`
+	Type              string              `json:"type,omitempty"`
+	Documentation     PDLCDocumentation   `json:"documentation,omitempty"`
+	Phases            []PDLCPhase         `json:"phases,omitempty"`
+	Dependencies      *PDLCDependencies   `json:"dependencies,omitempty"`
+	Tooling           *PDLCTooling        `json:"tooling,omitempty"`
+	RelatedFrameworks []FrameworkRelation `json:"relatedFrameworks,omitempty"`
+	References        []Reference         `json:"references,omitempty"`
+}
+
+// PDLCDocumentation contains PDLC-specific documentation links.
+type PDLCDocumentation struct {
+	Specification string `json:"specification,omitempty"`
+}
+
+// PDLCPhase represents one of the six PDLC stages. Stage IDs are stable and
+// imported by consumers (e.g. specification-workflow-spec tags each spec type
+// with a PDLCStage; Threat Model Spec's ASPM security-posture domains map to
+// the builder-side stages).
+type PDLCPhase struct {
+	ID                  string            `json:"id,omitempty"`
+	Name                string            `json:"name,omitempty"`
+	Order               int               `json:"order,omitempty"`
+	Description         string            `json:"description,omitempty"`
+	Role                string            `json:"role,omitempty"` // "product" | "builder"
+	AIDLCPhase          string            `json:"aiDlcPhase,omitempty"`
+	ParallelWith        []string          `json:"parallelWith,omitempty"`
+	HumanRole           string            `json:"humanRole,omitempty"`
+	SecurityOverlayNote string            `json:"securityOverlayNote,omitempty"`
+	SubStages           []PDLCSubStage    `json:"subStages,omitempty"`
+	Deliverables        []PDLCDeliverable `json:"deliverables,omitempty"`
+	Gates               []PDLCGate        `json:"gates,omitempty"`
+}
+
+// PDLCSubStage represents a detailed sub-stage within a PDLC phase. Currently
+// used only by Product Definition, whose seven detailed sub-stages (discovery
+// through baseline & handoff) are normatively specified in the pdlc repository.
+type PDLCSubStage struct {
+	ID          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Order       int    `json:"order,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+// PDLCDeliverable represents a deliverable artifact within a phase.
+type PDLCDeliverable struct {
+	ID          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Required    bool   `json:"required,omitempty"`
+	// Authority is "normative" or "advisory". Advisory deliverables (e.g. the
+	// Product Definition prototype, the Builder Definition reference SDK
+	// client) validate that a normative spec is coherent and implementable
+	// without themselves being a requirement.
+	Authority string `json:"authority,omitempty"`
+}
+
+// PDLCGate represents a review gate for a phase.
+type PDLCGate struct {
+	Name        string `json:"name,omitempty"`
+	Type        string `json:"type,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+// PDLCDependencies defines the phase dependency graph.
+type PDLCDependencies struct {
+	Description string           `json:"description,omitempty"`
+	Graph       []PDLCDependency `json:"graph,omitempty"`
+}
+
+// PDLCDependency represents a single dependency edge between phase IDs.
+type PDLCDependency struct {
+	From string `json:"from,omitempty"`
+	To   string `json:"to,omitempty"`
+}
+
+// PDLCTooling defines tooling integrations.
+type PDLCTooling struct {
+	Integrations []string `json:"integrations,omitempty"`
+}
