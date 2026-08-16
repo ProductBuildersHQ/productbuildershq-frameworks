@@ -109,7 +109,7 @@ func main() {
 
     // Get PDLC (6-stage lifecycle; the canonical stage-ID hub other
     // frameworks and consumers, e.g. Threat Model Spec's ASPM overlay
-    // and specification-workflow-spec's spec-type tagging, map into)
+    // and visionspec's spec-type tagging, map into)
     pdlc := frameworks.MustPDLC()
     fmt.Printf("PDLC: %d phases\n", len(pdlc.Phases))
     for _, p := range pdlc.Phases {

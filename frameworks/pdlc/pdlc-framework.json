@@ -135,9 +135,8 @@
   },
   "tooling": {
     "integrations": [
-      "specification-workflow-spec (tags each spec type with its PDLC stage for spec-driven analysis)",
       "Threat Model Spec (ASPM security-posture overlay on the builder stages; tms analyze command)",
-      "VisionSpec / VisionStudio (initiative, phase, and RMI tracking against PDLC-staged work)"
+      "VisionSpec / VisionStudio (tags each spec type with its PDLC stage for spec-driven analysis; initiative, phase, and RMI tracking against PDLC-staged work)"
     ]
   },
   "relatedFrameworks": [

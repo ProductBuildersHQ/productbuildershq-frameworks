@@ -199,7 +199,7 @@ type PDLCPhase struct {
 }
 ```
 
-`PDLCPhase` stage IDs (`product-definition`, `builder-definition`, `implementation`, `deployment`, `builder-operations`, `product-operations`) are stable and imported by consumers — e.g. `specification-workflow-spec` tags each spec type with a PDLC stage, and Threat Model Spec's ASPM security-posture domains map onto the three builder-side stages. See the [PDLC framework page](../frameworks/pdlc/index.md) for the stage-by-stage guide.
+`PDLCPhase` stage IDs (`product-definition`, `builder-definition`, `implementation`, `deployment`, `builder-operations`, `product-operations`) are stable and imported by consumers — e.g. `visionspec` tags each spec type with a PDLC stage, and Threat Model Spec's ASPM security-posture domains map onto the three builder-side stages. See the [PDLC framework page](../frameworks/pdlc/index.md) for the stage-by-stage guide.
 
 ## Common Types
 

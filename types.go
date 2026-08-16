@@ -426,8 +426,8 @@ type PDLCDocumentation struct {
 }
 
 // PDLCPhase represents one of the six PDLC stages. Stage IDs are stable and
-// imported by consumers (e.g. specification-workflow-spec tags each spec type
-// with a PDLCStage; Threat Model Spec's ASPM security-posture domains map to
+// imported by consumers (e.g. visionspec tags each spec type with a
+// PDLCStage; Threat Model Spec's ASPM security-posture domains map to
 // the builder-side stages).
 type PDLCPhase struct {
 	ID                  string            `json:"id,omitempty"`
