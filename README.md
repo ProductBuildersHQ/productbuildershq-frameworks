@@ -16,6 +16,7 @@ Machine-readable specifications for maturity models and capability frameworks. T
 | Framework | Spec | Based On | Documentation |
 |-----------|------|----------|---------------|
 | AIDLC (AI-Driven Development Lifecycle) | [`frameworks/aidlc/`](frameworks/aidlc/) | [AWS AI DLC](https://docs.aws.amazon.com/prescriptive-guidance/latest/ai-driven-software-development/) | [Article](https://productbuildershq.com/frameworks/aws-aidlc) |
+| PDLC (Product Development Lifecycle) | [`frameworks/pdlc/`](frameworks/pdlc/) | Native — splits each AIDLC phase into parallel product/builder lenses | [Specification](https://github.com/ProductBuildersHQ/pdlc) |
 
 ### AI-Adapted Industry Frameworks
 
@@ -81,6 +82,15 @@ func main() {
     fmt.Printf("AIDLC: %d phases, %d total deliverables\n",
         len(aidlc.Phases), countDeliverables(aidlc))
 
+    // Get PDLC (6-stage lifecycle; the canonical stage-ID hub other
+    // frameworks and consumers, e.g. Threat Model Spec's ASPM overlay
+    // and specification-workflow-spec's spec-type tagging, map into)
+    pdlc := frameworks.MustPDLC()
+    fmt.Printf("PDLC: %d phases\n", len(pdlc.Phases))
+    for _, p := range pdlc.Phases {
+        fmt.Printf("  %s (%s, %s)\n", p.Name, p.Role, p.AIDLCPhase)
+    }
+
     // Access raw JSON if needed
     jsonBytes := frameworks.AIDoraJSON()
     fmt.Printf("Raw AI-DORA JSON: %d bytes\n", len(jsonBytes))
@@ -106,11 +116,14 @@ func main() {
 | `MustPBMM()` | Returns `*PBMMFramework` (panics on error) |
 | `AIDLC()` | Returns `*AIDLCFramework, error` |
 | `MustAIDLC()` | Returns `*AIDLCFramework` (panics on error) |
+| `PDLC()` | Returns `*PDLCFramework, error` |
+| `MustPDLC()` | Returns `*PDLCFramework` (panics on error) |
 | `AIDoraJSON()` | Returns raw JSON `[]byte` |
 | `AISpaceJSON()` | Returns raw JSON `[]byte` |
 | `ASDMJSON()` | Returns raw JSON `[]byte` |
 | `PBMMJSON()` | Returns raw JSON `[]byte` |
 | `AIDLCJSON()` | Returns raw JSON `[]byte` |
+| `PDLCJSON()` | Returns raw JSON `[]byte` |
 | `FS()` | Returns `embed.FS` with all JSON files |
 
 ## Usage with PRISM
