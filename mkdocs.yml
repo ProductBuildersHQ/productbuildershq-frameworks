@@ -90,4 +90,9 @@ nav:
     - PRISM: integrations/prism.md
     - VisionSpec: integrations/visionspec.md
     - PIDL: integrations/pidl.md
+  - Releases:
+    - v0.3.0: releases/v0.3.0.md
+    - v0.2.0: releases/v0.2.0.md
+    - v0.1.0: releases/v0.1.0.md
+  - Changelog: changelog.md
   - Contributing: contributing.md
